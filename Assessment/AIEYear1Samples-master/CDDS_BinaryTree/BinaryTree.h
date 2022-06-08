@@ -1,8 +1,3 @@
-/*----------------------------------------
-Author: Richard Stern
-Description: A simple binary search tree
-Date: 17/4/2015
-----------------------------------------*/
 #ifndef _BINARYTREE_H_
 #define _BINARYTREE_H_
 

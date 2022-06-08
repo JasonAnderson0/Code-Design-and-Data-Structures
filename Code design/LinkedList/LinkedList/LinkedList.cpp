@@ -10,15 +10,21 @@ class LinkedList
       T data;
       Node* prev{ nullptr };
       Node* next{ nullptr };
+
     };
 
     struct Iterator 
     {
     public:
-        Node* current() { return &curNode; }
+        //bool 
+        int count = 0;
+        Node* current() { return curNode; }
+        Node* first() { return head; }
+        Node* last() { return tail; }
         void moveFirst() { curNode = head; }
         void moveLast() { curNode = tail; }
-        void nextNode() { curNode = curNode->next; }
+        void nextNode() { curNode = curNode.next; }
+        void countNodes() { return count++; }
 
 
     private:
@@ -41,8 +47,14 @@ class LinkedList
   void PushFront(const T& value)
   {
       Node* temp = new Node{ value };
-      if (head) head->prev = temp;
-      if (tail == nullptr) tail = temp;
+      //temp->next = head;
+      if (head != nullptr) 
+      {
+          head->prev = temp;
+          temp->next = head;
+          temp->prev = nullptr;
+      }
+      if (tail == nullptr) tail = head;
       head = temp;
   }
 
@@ -92,11 +104,18 @@ class LinkedList
       //= the nodes next. the nodes next's prev = 
       //nodes next then delete node
 
+
+  }
+
+  void PrintValues()
+  {
+      Node* last;
+
+      
   }
 
   Node* begin() {return head;}
   Node* end() { return tail; }
-
 
 
 private:
@@ -107,11 +126,23 @@ private:
 int main()
 {
     LinkedList<int> list;
+    //LinkedList<int>::Node node = list.PushFront(1);
+    //list.PushFront(5);
     list.PushFront(1);
-    list.PushFront(5);
-
-    for(int b : list)
+    auto print = [](LinkedList<int>::Node& node)
     {
-        std::cout << b << std::endl;
-    }
+        std::cout << node.data << std::endl;
+    };
+
+
+
+    //for(LinkedList<int>::Node nodes : list)
+    //{
+
+    //}
+
+    //for(LinkedList<int>::Node b : list)
+    //{
+    //    std::cout << b.data << std::endl;
+    //}
 }
