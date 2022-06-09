@@ -9,12 +9,12 @@ int main(int argc, char* argv[])
     // Initialization
     //--------------------------------------------------------------------------------------
     int screenWidth = 800;
-    int screenHeight = 450;
+    int screenHeight = 550;
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
     //TODO:Optimise collisions
-    //Optimise loading textures alot
+    //Optimise loading textures alot. use hash table to load the texture. look at set/map
     //
 
 

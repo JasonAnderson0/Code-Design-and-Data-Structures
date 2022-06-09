@@ -10,11 +10,10 @@ class LinkedList
       T data;
       Node* prev{ nullptr };
       Node* next{ nullptr };
-
     };
 
     struct Iterator 
-    {
+    { //look at map/multimap for iterator thing
     public:
         //bool 
         int count = 0;
@@ -24,7 +23,7 @@ class LinkedList
         void moveFirst() { curNode = head; }
         void moveLast() { curNode = tail; }
         void nextNode() { curNode = curNode.next; }
-        void countNodes() { return count++; }
+        //void countNodes() { }
 
 
     private:
@@ -44,38 +43,40 @@ class LinkedList
 
   //List nullptr <->Node1 <-> Node2 <-> nullptr
 
+  bool isEmpty() { return head == nullptr; }
+
   void PushFront(const T& value)
   {
       Node* temp = new Node{ value };
-      //temp->next = head;
-      if (head != nullptr) 
+      if (head) 
       {
-          head->prev = temp;
           temp->next = head;
-          temp->prev = nullptr;
+          head->prev = temp;
       }
-      if (tail == nullptr) tail = head;
+      if (tail == nullptr) tail = temp;
       head = temp;
   }
 
   void PushBack(const T& value)
   {
       Node* temp = new Node{ value };
-      if (tail) tail->next = temp;
+      if (tail) 
+      {
+          tail->next = temp;
+          temp->prev = tail;
+      }
       if (head == nullptr) head = temp;
       tail = temp;
   }
 
-  void Insert(const T& value, T& searchedVal)
+  void Insert(const T& value,  T& searchedVal)
   {
       Node* temp = new Node{ value };
-      searchedVal.next->prev = temp;
+      searchedVal->next->prev = temp;
       temp->next = searchedVal.next;
-      searchedVal.next = temp;
+      searchedVal->next = temp;
       temp->prev = &searchedVal;
   }
-
-  bool isEmpty() { return head == nullptr; }
 
   void popFront()
   {
@@ -90,6 +91,7 @@ class LinkedList
 
   void popBack()
   {
+      if (isEmpty())return;
       Node* temp = tail->prev;
       if (temp) temp->next = nullptr;
       delete tail;
@@ -104,14 +106,6 @@ class LinkedList
       //= the nodes next. the nodes next's prev = 
       //nodes next then delete node
 
-
-  }
-
-  void PrintValues()
-  {
-      Node* last;
-
-      
   }
 
   Node* begin() {return head;}
@@ -126,23 +120,13 @@ private:
 int main()
 {
     LinkedList<int> list;
-    //LinkedList<int>::Node node = list.PushFront(1);
-    //list.PushFront(5);
     list.PushFront(1);
-    auto print = [](LinkedList<int>::Node& node)
+    list.PushFront(5);
+    list.PushBack(2);
+    //list.Insert(4, 1);
+
+    for(LinkedList<int>::Node* node = list.begin(); node != nullptr; node = node->next)
     {
-        std::cout << node.data << std::endl;
-    };
-
-
-
-    //for(LinkedList<int>::Node nodes : list)
-    //{
-
-    //}
-
-    //for(LinkedList<int>::Node b : list)
-    //{
-    //    std::cout << b.data << std::endl;
-    //}
+        std::cout << node << std::endl;
+    }
 }
