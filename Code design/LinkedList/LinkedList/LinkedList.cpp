@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 template <typename T>
 class LinkedList
@@ -123,10 +124,13 @@ int main()
     list.PushFront(1);
     list.PushFront(5);
     list.PushBack(2);
-    //list.Insert(4, 1);
+    list.Insert(4, 1);
 
     for(LinkedList<int>::Node* node = list.begin(); node != nullptr; node = node->next)
     {
         std::cout << node->data << std::endl;
     }
+
+    
+
 }

@@ -69,7 +69,7 @@ TreeNode* BinaryTree::Find(int a_nValue)
 bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& ppOutParent)
 {
 	ppOutNode = m_pRoot;
-	while (ppOutNode != NULL) 
+	while (ppOutNode != nullptr) 
 	{
 		if (a_nSearchValue == ppOutNode->GetData()) {
 			return (ppOutNode, ppOutParent);
@@ -93,6 +93,9 @@ void BinaryTree::Remove(int a_nValue)
 			childNode = childNode->GetLeft();
 		}
 		//currentNode.SetData(childNode->GetData());
+
+	}
+	else {
 
 	}
 }
