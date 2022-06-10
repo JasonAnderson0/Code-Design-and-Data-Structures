@@ -1,6 +1,7 @@
 #include "EntityEditorApp.h"
 #include <random>
 #include <time.h>
+#include <windows.h>
 
 #define RAYGUI_IMPLEMENTATION
 #define RAYGUI_SUPPORT_ICONS
@@ -9,16 +10,24 @@
 
 EntityEditorApp::EntityEditorApp(int screenWidth, int screenHeight) : m_screenWidth(screenWidth), m_screenHeight(screenHeight) {
 
+
+
 }
 
 EntityEditorApp::~EntityEditorApp() {
-	
+	//CloseHandle(fileHandle);
 }
+
 
 bool EntityEditorApp::Startup() {
 
 	InitWindow(m_screenWidth, m_screenHeight, "EntityDisplayApp");
 	SetTargetFPS(60);
+	fileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE,
+		0, sizeof(m_entities), L"MySharedMemory");
+	intFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE,
+		0, sizeof(int), L"MySharedInt");
+
 
 	srand(time(nullptr));
 	for (auto& entity : m_entities) {
@@ -37,12 +46,12 @@ bool EntityEditorApp::Startup() {
 
 void EntityEditorApp::Shutdown() {
 
+	CloseHandle(fileHandle);
 	CloseWindow();        // Close window and OpenGL context
 }
 
 void EntityEditorApp::Update(float deltaTime) {
 	
-
 	// select an entity to edit
 	static int selection = 0;
 	static bool selectionEditMode = false;
@@ -101,6 +110,18 @@ void EntityEditorApp::Update(float deltaTime) {
 		if (m_entities[i].y < 0)
 			m_entities[i].y += m_screenHeight;
 	}
+
+	Entity* data = (Entity*)MapViewOfFile(fileHandle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(m_entities));
+	for (int i = 0; i < ENTITY_COUNT; i++)
+	{
+		data[i] = m_entities[i];
+	}
+
+	int* intdata = (int*)MapViewOfFile(intFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(int));
+
+	*intdata = ENTITY_COUNT;
+	UnmapViewOfFile(data);
+	UnmapViewOfFile(intdata);
 }
 
 void EntityEditorApp::Draw() {

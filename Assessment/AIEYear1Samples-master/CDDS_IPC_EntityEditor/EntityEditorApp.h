@@ -2,6 +2,7 @@
 #include <vector>
 #include "raylib.h"
 #include "WinInc.h"
+#include <windows.h>
 
 struct Entity {
 	float x = 0, y = 0;
@@ -29,6 +30,7 @@ protected:
 	// define a block of entities that should be shared
 	enum { ENTITY_COUNT = 10 };
 	Entity m_entities[ENTITY_COUNT];
+	HANDLE fileHandle;
+	HANDLE intFileHandle;
 
-	HANDLE h;
 };

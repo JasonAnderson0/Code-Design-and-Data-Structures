@@ -127,6 +127,6 @@ int main()
 
     for(LinkedList<int>::Node* node = list.begin(); node != nullptr; node = node->next)
     {
-        std::cout << node << std::endl;
+        std::cout << node->data << std::endl;
     }
 }

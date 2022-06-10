@@ -92,7 +92,7 @@ void BinaryTree::Remove(int a_nValue)
 		while (childNode->GetLeft() != NULL) {
 			childNode = childNode->GetLeft();
 		}
-		currentNode.SetData(childNode->GetData());
+		//currentNode.SetData(childNode->GetData());
 
 	}
 }

@@ -2,6 +2,7 @@
 #include <vector>
 #include "raylib.h"
 #include "WinInc.h"
+#include <windows.h>
 
 struct Entity {
 	float x = 0, y = 0;
@@ -19,6 +20,7 @@ public:
 	bool Startup();
 	void Shutdown();
 
+
 	void Update(float deltaTime);
 	void Draw();
 
@@ -27,5 +29,8 @@ protected:
 	int m_screenHeight;
 
 	// an array of an unknown number of entities
+	HANDLE fileHandle;
+	HANDLE intFileHandle;
+	//Entity* data;
 	std::vector<Entity> m_entities;
 };

@@ -1,28 +1,50 @@
 #include "EntityDisplayApp.h"
+#include <windows.h>
 
 EntityDisplayApp::EntityDisplayApp(int screenWidth, int screenHeight) : m_screenWidth(screenWidth), m_screenHeight(screenHeight) {
 
 }
 
-EntityDisplayApp::~EntityDisplayApp() {
+EntityDisplayApp::~EntityDisplayApp() 
+{
 
 }
+
 
 bool EntityDisplayApp::Startup() {
 
 	InitWindow(m_screenWidth, m_screenHeight, "EntityDisplayApp");
 	SetTargetFPS(60);
+	fileHandle = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, L"MySharedMemory");
+	intFileHandle = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, L"MySharedInt");
 
 	return true;
 }
 
 void EntityDisplayApp::Shutdown() {
-
+	//UnmapViewOfFile(data);
+	CloseHandle(fileHandle);
 	CloseWindow();        // Close window and OpenGL context
 }
 
-void EntityDisplayApp::Update(float deltaTime) {
+void EntityDisplayApp::Update(float deltaTime) 
+{
+	int* intdata = (int*)MapViewOfFile(intFileHandle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(int));
 
+	Entity* data = (Entity*)MapViewOfFile(fileHandle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(m_entities));
+
+	m_entities.resize(*intdata);
+
+	for (int i = 0; i < *intdata; i++)
+	{
+		m_entities[i] = data[i];
+	}
+
+
+
+
+	UnmapViewOfFile(data);
+	UnmapViewOfFile(intdata);
 }
 
 void EntityDisplayApp::Draw() {
