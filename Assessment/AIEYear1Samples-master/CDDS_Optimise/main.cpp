@@ -3,6 +3,7 @@
 #include <random>
 #include <time.h>
 #include "Critter.h"
+#include "Hashtable.h"
 
 int main(int argc, char* argv[])
 {
@@ -25,6 +26,9 @@ int main(int argc, char* argv[])
 
 
     Critter critters[1000]; 
+
+    unsigned int size = 10;
+    Hashtable** hashtable = new Hashtable * [size];
 
     // create some critters
     const int CRITTER_COUNT = 50;
@@ -126,13 +130,6 @@ int main(int argc, char* argv[])
                 if (i == j || critters[i].IsDirty()) // note: the other critter (j) could be dirty - that's OK
                     continue;
 
-                //TODO: sqr instead of square root. do distance better
-                // r2 = critter[i].GetRadius() + critters[j].GetRadius();
-                // r2 = r2 * r2;
-                // Vector2 diff = Vector2Subtract(critters[i].GetPosition, critters[j].GetPosition);
-                //float dist = Vector2DotProduct(diff,diff);
-                //if(dist < r2){do collision}
-
                 // check every critter against every other critter
                 float dist = Vector2Distance(critters[i].GetPosition(), critters[j].GetPosition());
                 if (dist < critters[i].GetRadius() + critters[j].GetRadius())
@@ -145,7 +142,7 @@ int main(int argc, char* argv[])
                     critters[i].SetVelocity(Vector2Scale(normal, -MAX_VELOCITY));
                     // set the critter to *dirty* so we know not to process any more collisions on it
                     critters[i].SetDirty(); 
-
+                     
                     // we still want to check for collisions in the case where 1 critter is dirty - so we need a check 
                     // to make sure the other critter is clean before we do the collision response
                     if (!critters[j].IsDirty()) {

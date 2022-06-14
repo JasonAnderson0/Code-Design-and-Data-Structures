@@ -1,8 +1,3 @@
-/*----------------------------------------
-Author: Richard Stern
-Description: A simple binary search tree
-Date: 17/4/2015
-----------------------------------------*/
 #include "BinaryTree.h"
 #include "TreeNode.h"
 #include "raylib.h"
@@ -34,28 +29,41 @@ bool BinaryTree::IsEmpty() const
 // Smaller elements are placed to the left, larger onces are placed to the right.
 void BinaryTree::Insert(int a_nValue)
 {
-	if (IsEmpty()) { *m_pRoot = a_nValue; }
+
+	if (IsEmpty()) { m_pRoot->SetData(a_nValue); }
 	TreeNode* currentNode = m_pRoot;
+	TreeNode* parentNode = currentNode;
 
 	while (currentNode != nullptr)
 	{
 		if (a_nValue < currentNode->GetData())
 		{
+			parentNode = currentNode;
 			currentNode = currentNode->GetLeft();
 			continue;
 		}
 		if (a_nValue > currentNode->GetData())
 		{
+			parentNode = currentNode;
 			currentNode = currentNode->GetRight();
 			continue;
 		}
 		if (a_nValue == currentNode->GetData())
 		{
-			return;
+			break;
 		}
 	}
 
-
+	if (a_nValue < parentNode->GetData()) 
+	{ 
+		TreeNode* newNode = new TreeNode(a_nValue);
+		parentNode->SetLeft(newNode);
+	}
+	else 
+	{
+		TreeNode* newNode = new TreeNode(a_nValue);
+		parentNode->SetRight(newNode);
+	}
 }
 
 TreeNode* BinaryTree::Find(int a_nValue)
@@ -86,17 +94,34 @@ bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& p
 void BinaryTree::Remove(int a_nValue)
 {
 	TreeNode* currentNode = Find(a_nValue);
-	if (currentNode->GetRight() != NULL) 
+	TreeNode* childNode = currentNode->GetRight();
+	TreeNode* parentNode = childNode;
+	if (currentNode->GetRight() != nullptr) 
 	{
-		TreeNode* childNode = currentNode->GetLeft();
-		while (childNode->GetLeft() != NULL) {
+
+		while (childNode->GetLeft() != nullptr) {
+			parentNode = childNode;
 			childNode = childNode->GetLeft();
 		}
-		//currentNode.SetData(childNode->GetData());
-
+		currentNode->SetData(childNode->GetData());
+		if (currentNode == parentNode->GetLeft()) {
+			parentNode->GetLeft()->SetData(childNode->GetRight()->GetData());
+		}
+		if (currentNode == parentNode->GetRight()) {
+			parentNode->GetRight()->SetData(childNode->GetRight()->GetData());
+		}
 	}
-	else {
-
+	else 
+	{
+		if (currentNode == parentNode->GetLeft()) {
+			parentNode->GetLeft()->SetData(currentNode->GetLeft()->GetData());
+		}		
+		if (currentNode == parentNode->GetRight()) {
+			parentNode->GetRight()->SetData(currentNode->GetLeft()->GetData());
+		}
+		if (currentNode == m_pRoot) {
+			m_pRoot->SetData(currentNode->GetLeft()->GetData());
+		}
 	}
 }
 

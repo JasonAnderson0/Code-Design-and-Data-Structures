@@ -11,11 +11,6 @@ TreeNode::~TreeNode()
 {
 }
 
-//void TreeNode::SetData(int value) 
-//{
-//	m_value = value;
-//}
-
 void TreeNode::Draw(int x, int y, bool selected)
 {
 	static char buffer[10];
