@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     Critter critters[1000]; 
 
     unsigned int size = 10;
-    Hashtable** hashtable = new Hashtable * [size];
+    //Hashtable** hashtable = new Hashtable * [size];
 
     // create some critters
     const int CRITTER_COUNT = 50;

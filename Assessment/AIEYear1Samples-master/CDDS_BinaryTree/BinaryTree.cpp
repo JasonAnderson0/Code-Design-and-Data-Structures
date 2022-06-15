@@ -30,7 +30,11 @@ bool BinaryTree::IsEmpty() const
 void BinaryTree::Insert(int a_nValue)
 {
 
-	if (IsEmpty()) { m_pRoot->SetData(a_nValue); }
+	if (IsEmpty()) { 
+		m_pRoot = new TreeNode(a_nValue); 
+		return;
+	}
+
 	TreeNode* currentNode = m_pRoot;
 	TreeNode* parentNode = currentNode;
 
@@ -80,7 +84,7 @@ bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& p
 	while (ppOutNode != nullptr) 
 	{
 		if (a_nSearchValue == ppOutNode->GetData()) {
-			return (ppOutNode, ppOutParent);
+			return (ppOutNode);
 		}
 		else {
 			if (a_nSearchValue < ppOutNode->GetData()) ppOutNode = ppOutNode->GetLeft();
@@ -94,11 +98,19 @@ bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& p
 void BinaryTree::Remove(int a_nValue)
 {
 	TreeNode* currentNode = Find(a_nValue);
-	TreeNode* childNode = currentNode->GetRight();
-	TreeNode* parentNode = childNode;
-	if (currentNode->GetRight() != nullptr) 
-	{
 
+	//is currentNode leaf
+	if (currentNode->GetRight() == nullptr && currentNode->GetLeft() == nullptr)
+	{
+		currentNode = nullptr;
+		return;
+	}
+
+	//is currentNode branch
+	if (currentNode->GetRight() != nullptr && currentNode->GetRight() != nullptr) 
+	{
+		TreeNode* childNode = currentNode->GetRight();
+		TreeNode* parentNode = childNode;
 		while (childNode->GetLeft() != nullptr) {
 			parentNode = childNode;
 			childNode = childNode->GetLeft();
@@ -111,18 +123,26 @@ void BinaryTree::Remove(int a_nValue)
 			parentNode->GetRight()->SetData(childNode->GetRight()->GetData());
 		}
 	}
-	else 
+	//right has node but left doesnt
+	if (currentNode->GetRight() != nullptr && currentNode->GetLeft() == nullptr) 
 	{
-		if (currentNode == parentNode->GetLeft()) {
-			parentNode->GetLeft()->SetData(currentNode->GetLeft()->GetData());
-		}		
-		if (currentNode == parentNode->GetRight()) {
-			parentNode->GetRight()->SetData(currentNode->GetLeft()->GetData());
-		}
-		if (currentNode == m_pRoot) {
-			m_pRoot->SetData(currentNode->GetLeft()->GetData());
-		}
+
 	}
+	//left has node but right doesnt
+	if (currentNode->GetRight() == nullptr && currentNode->GetLeft() != nullptr) 
+	{
+
+	}
+	//if (currentNode == parentNode->GetLeft()) {
+	//	parentNode->GetLeft()->SetData(currentNode->GetLeft()->GetData());
+	//}
+	//if (currentNode == parentNode->GetRight()) {
+	//	parentNode->GetRight()->SetData(currentNode->GetLeft()->GetData());
+	//}
+	//if (currentNode == m_pRoot) {
+	//	m_pRoot->SetData(currentNode->GetLeft()->GetData());
+	//}
+
 }
 
 void BinaryTree::PrintOrdered()
