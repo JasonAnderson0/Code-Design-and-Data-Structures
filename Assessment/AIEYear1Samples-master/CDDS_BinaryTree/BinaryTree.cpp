@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include <iostream>
 #include <cstdlib>
+
 using namespace std;
 
 
@@ -54,7 +55,7 @@ void BinaryTree::Insert(int a_nValue)
 		}
 		if (a_nValue == currentNode->GetData())
 		{
-			break;
+			return;
 		}
 	}
 
@@ -68,6 +69,8 @@ void BinaryTree::Insert(int a_nValue)
 		TreeNode* newNode = new TreeNode(a_nValue);
 		parentNode->SetRight(newNode);
 	}
+
+	//Assert::AreEqual(a_nValue, currentNode->GetData());
 }
 
 TreeNode* BinaryTree::Find(int a_nValue)
@@ -99,49 +102,49 @@ void BinaryTree::Remove(int a_nValue)
 {
 	TreeNode* currentNode = Find(a_nValue);
 
-	//is currentNode leaf
-	if (currentNode->GetRight() == nullptr && currentNode->GetLeft() == nullptr)
-	{
-		currentNode = nullptr;
-		return;
-	}
-
-	//is currentNode branch
-	if (currentNode->GetRight() != nullptr && currentNode->GetRight() != nullptr) 
-	{
-		TreeNode* childNode = currentNode->GetRight();
-		TreeNode* parentNode = childNode;
-		while (childNode->GetLeft() != nullptr) {
-			parentNode = childNode;
-			childNode = childNode->GetLeft();
-		}
-		currentNode->SetData(childNode->GetData());
-		if (currentNode == parentNode->GetLeft()) {
-			parentNode->GetLeft()->SetData(childNode->GetRight()->GetData());
-		}
-		if (currentNode == parentNode->GetRight()) {
-			parentNode->GetRight()->SetData(childNode->GetRight()->GetData());
-		}
-	}
-	//right has node but left doesnt
-	if (currentNode->GetRight() != nullptr && currentNode->GetLeft() == nullptr) 
-	{
-
-	}
-	//left has node but right doesnt
-	if (currentNode->GetRight() == nullptr && currentNode->GetLeft() != nullptr) 
-	{
-
-	}
-	//if (currentNode == parentNode->GetLeft()) {
-	//	parentNode->GetLeft()->SetData(currentNode->GetLeft()->GetData());
+	////is currentNode leaf
+	//if (currentNode->GetRight() == nullptr && currentNode->GetLeft() == nullptr)
+	//{
+	//	currentNode = nullptr;
+	//	return;
 	//}
-	//if (currentNode == parentNode->GetRight()) {
-	//	parentNode->GetRight()->SetData(currentNode->GetLeft()->GetData());
+
+	////is currentNode branch
+	//if (currentNode->GetRight() != nullptr && currentNode->GetRight() != nullptr) 
+	//{
+	//	TreeNode* childNode = currentNode->GetRight();
+	//	TreeNode* parentNode = childNode;
+	//	while (childNode->GetLeft() != nullptr) {
+	//		parentNode = childNode;
+	//		childNode = childNode->GetLeft();
+	//	}
+	//	currentNode->SetData(childNode->GetData());
+	//	if (currentNode == parentNode->GetLeft()) {
+	//		parentNode->GetLeft()->SetData(childNode->GetRight()->GetData());
+	//	}
+	//	if (currentNode == parentNode->GetRight()) {
+	//		parentNode->GetRight()->SetData(childNode->GetRight()->GetData());
+	//	}
 	//}
-	//if (currentNode == m_pRoot) {
-	//	m_pRoot->SetData(currentNode->GetLeft()->GetData());
+	////right has node but left doesnt
+	//if (currentNode->GetRight() != nullptr && currentNode->GetLeft() == nullptr) 
+	//{
+
 	//}
+	////left has node but right doesnt
+	//if (currentNode->GetRight() == nullptr && currentNode->GetLeft() != nullptr) 
+	//{
+	//	
+	//}
+	////if (currentNode == parentNode->GetLeft()) {
+	////	parentNode->GetLeft()->SetData(currentNode->GetLeft()->GetData());
+	////}
+	////if (currentNode == parentNode->GetRight()) {
+	////	parentNode->GetRight()->SetData(currentNode->GetLeft()->GetData());
+	////}
+	////if (currentNode == m_pRoot) {
+	////	m_pRoot->SetData(currentNode->GetLeft()->GetData());
+	////}
 
 }
 

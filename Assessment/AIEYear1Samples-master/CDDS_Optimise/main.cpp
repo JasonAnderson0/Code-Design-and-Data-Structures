@@ -3,7 +3,7 @@
 #include <random>
 #include <time.h>
 #include "Critter.h"
-#include "Hashtable.h"
+#include "ResourceManager.h"
 
 int main(int argc, char* argv[])
 {
