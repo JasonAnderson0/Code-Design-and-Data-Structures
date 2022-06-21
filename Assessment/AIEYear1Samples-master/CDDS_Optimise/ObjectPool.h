@@ -1,17 +1,23 @@
 #pragma once
+#include <vector>
+#include "Critter.h"
 
-template <typename T>
-class ObjectPool
-{
+class ObjectPool {
 public:
-	ObjectPool(unsigned int size) : m_size(size), m_data(new T[size]) {}
-	~ObjectPool() { delete[] m_data; }
+	ObjectPool(const int size);
+
+	Critter* GetPool(int value) { return &critterPool[value]; }
+	std::vector<Critter> GetActive() { return active; }
+	std::vector<Critter> GetInactive() { return inactive; }
+
+	Critter* spawn();
+	void despawn(Critter& mover);
+
 
 private:
-	unsigned int m_size = 0;
-	T* m_data = nullptr;
-	bool* 
-
+	std::vector<Critter> inactive;
+	std::vector<Critter> active;
+	const int m_size;
+	Critter* critterPool = new Critter[m_size];
 
 };
-

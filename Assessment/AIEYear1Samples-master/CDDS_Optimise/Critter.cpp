@@ -6,16 +6,16 @@ Critter::Critter()
 	m_position = Vector2{ 0, 0 };
 	m_velocity = Vector2{ 0, 0 };
 	m_radius = 0;
-	m_isLoaded = false;
+	m_isLoaded = true;
 }
 
 Critter::~Critter()
 {
-	UnloadTexture(m_texture);
+	//UnloadTexture(m_texture);
 	m_isLoaded = false;
 }
 
-void Critter::Init(Vector2 position, Vector2 velocity, float radius, const char* texture)
+void Critter::Init( Vector2 position, Vector2 velocity, float radius, const char* texture)
 {
 	m_position = position;
 	m_velocity = velocity;
