@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 
     const int MAX_VELOCITY = 80;
 
-    for (int i = 0; i < CRITTER_COUNT; i++)
+    for (int i = 0; i < CRITTER_COUNT - 1; i++)
     {
         critterpool.spawn();
     }
@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
         critterarray[i].Init(
             { (float)(5 + rand() % (screenWidth - 10)), (float)(5 + (rand() % screenHeight - 10)) },
             velocity,
-            12, ResourceManager.wanted);
+            12, critterTexture);
     }
 
     Critter* destroyer = critterpool.spawn();
@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
 
     for (Critter critters : critterpool.GetActive())
     {
-        critters.Destroy();
+        //critters.Destroy();
     }
 
     // De-Initialization

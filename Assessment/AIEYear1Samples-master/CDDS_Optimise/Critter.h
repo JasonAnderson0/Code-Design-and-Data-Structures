@@ -10,7 +10,7 @@ protected:
 
 	Texture2D m_texture;
 
-	bool m_isLoaded;
+	bool m_isLoaded = true;
 	bool m_isDirty;
 	
 public:
