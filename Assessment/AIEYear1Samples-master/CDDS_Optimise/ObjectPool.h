@@ -11,7 +11,7 @@ public:
 	std::vector<Critter> GetInactive() { return inactive; }
 
 	Critter* spawn();
-	void despawn(Critter& mover);
+	void despawn(Critter* mover);
 
 
 private:

@@ -1,6 +1,14 @@
 #include "ResourceManager.h"
 
 
+int ResourceManager::Hash(const std::string& key) 
+{
+	unsigned int value = 0;
+	for (int i = 0; i < key.length(); i++)
+		value = value * 1313 + key[i];
+	return value;
+}
+
 ResourceManager::~ResourceManager()
 {
 }
@@ -23,14 +31,16 @@ Texture2D ResourceManager::loadTexture(const char* path)
 	//}
 
 	//check if its been loaded before
-
+	int key = Hash(path);
 	if (textureLoaded == false) {
-		Texture2D tex = LoadTexture(path);
+
+		wantedTex[key] = LoadTexture(path);
 		textureLoaded = true;
-		return tex;
+		return wantedTex[key];
 	}
 	else {
-		return m_textures[path];
+
+		return wantedTex[key];
 	}	
 }
 

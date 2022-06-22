@@ -7,6 +7,7 @@ Critter::Critter()
 	m_velocity = Vector2{ 0, 0 };
 	m_radius = 0;
 	m_isLoaded = true;
+	m_isDirty = false;
 }
 
 Critter::~Critter()
@@ -29,7 +30,7 @@ void Critter::Init( Vector2 position, Vector2 velocity, float radius, const char
 void Critter::Destroy()
 {
 	UnloadTexture(m_texture);
-	m_isLoaded = false;
+	//m_isLoaded = false;
 }
 
 void Critter::Update(float dt)

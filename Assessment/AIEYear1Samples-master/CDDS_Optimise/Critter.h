@@ -11,7 +11,7 @@ protected:
 	Texture2D m_texture;
 
 	bool m_isLoaded;
-	bool m_isDirty;		// indicates if we've already processed a collision response for this critter
+	bool m_isDirty;
 	
 public:
 	Critter();
@@ -21,6 +21,8 @@ public:
 	void Destroy();
 	void Update(float dt);
 	void Draw();
+
+	void SetLoaded() { m_isLoaded = true; }
 
 	float GetX() { return m_position.x; }
 	float GetY() { return m_position.y; }

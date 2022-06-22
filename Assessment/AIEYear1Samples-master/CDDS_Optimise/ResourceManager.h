@@ -8,13 +8,16 @@
 class ResourceManager
 {
 public:
+	int Hash(const std::string& key);
 
 	~ResourceManager();
 
 
 	Texture2D loadTexture(const char* path);
+	
 private:
 	bool textureLoaded = false;
-	Hashtable<std::string, Texture2D> m_textures;
+	Texture2D wantedTex[];
+	//Hashtable<std::string, Texture2D> m_textures[];
 
 }; 

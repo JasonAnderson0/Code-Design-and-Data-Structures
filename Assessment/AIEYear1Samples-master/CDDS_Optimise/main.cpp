@@ -15,9 +15,7 @@ int main(int argc, char* argv[])
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
-    //TODO:Optimise collisions
-    //Optimise loading textures alot. use hash table to load the texture. look at set/map
-    //
+
 
 
     //SetTargetFPS(60);
@@ -25,39 +23,51 @@ int main(int argc, char* argv[])
 
     srand(time(NULL));
 
-    //ResourceManager textureManager;
+    ResourceManager textureManager;
     const char critterTexture[] = "res/10.png";
     const char destroyerTexture[] = "res/9.png";
     const int CRITTER_COUNT = 50;
     ObjectPool critterpool(CRITTER_COUNT);
+    Critter critterarray[CRITTER_COUNT];
 
     const int MAX_VELOCITY = 80;
 
-    for (int i = 0; i < CRITTER_COUNT - 1; i++)
+    for (int i = 0; i < CRITTER_COUNT; i++)
     {
-        *critterpool.GetPool(i) = *critterpool.spawn();
+        critterpool.spawn();
     }
 
-    for (Critter critters : critterpool.GetActive()) {
+    //for (Critter critters : critterpool.GetActive()) {
+    //    // create a random direction vector for the velocity
+    //    Vector2 velocity = { -100 + (rand() % 200), -100 + (rand() % 200) };
+    //    // normalize and scale by a random speed
+    //    velocity = Vector2Scale(Vector2Normalize(velocity), MAX_VELOCITY);
+    //    critters.Init(
+    //        { (float)(5 + rand() % (screenWidth - 10)), (float)(5 + (rand() % screenHeight - 10)) },
+    //        velocity,
+    //        12, critterTexture);
+    //}
+
+    for (int i = 0; i < CRITTER_COUNT; i++) {
         // create a random direction vector for the velocity
         Vector2 velocity = { -100 + (rand() % 200), -100 + (rand() % 200) };
         // normalize and scale by a random speed
         velocity = Vector2Scale(Vector2Normalize(velocity), MAX_VELOCITY);
-        critters.Init(
+        critterarray[i].Init(
             { (float)(5 + rand() % (screenWidth - 10)), (float)(5 + (rand() % screenHeight - 10)) },
             velocity,
-            12, critterTexture);
+            12, ResourceManager.wanted);
     }
 
     Critter* destroyer = critterpool.spawn();
     Vector2 velocity = { -100 + (rand() % 200), -100 + (rand() % 200) };
     velocity = Vector2Scale(Vector2Normalize(velocity), MAX_VELOCITY);
-    destroyer.Init(Vector2{ (float)(screenWidth >> 1), (float)(screenHeight >> 1) }
+    destroyer->Init(Vector2{ (float)(screenWidth >> 1), (float)(screenHeight >> 1) }
     ,velocity, 20, destroyerTexture);
 
 
     float timer = 1;
-    Vector2 nextSpawnPos = destroyer.GetPosition();
+    Vector2 nextSpawnPos = destroyer->GetPosition();
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -93,10 +103,10 @@ int main(int argc, char* argv[])
             }
 
 
-            float dist = Vector2Distance(critters.GetPosition(), destroyer.GetPosition());
-            if (dist < critters.GetRadius() + destroyer.GetRadius())
+            float dist = Vector2Distance(critters.GetPosition(), destroyer->GetPosition());
+            if (dist < critters.GetRadius() + destroyer->GetRadius())
             {
-                critterpool.despawn(critters);
+                //critters.Destroy();
             }
         }
 
@@ -136,10 +146,10 @@ int main(int argc, char* argv[])
 
             // find any dead critters and spit them out (respawn)
             for (Critter critters : critterpool.GetInactive()) {
-                Vector2 normal = Vector2Normalize(destroyer.GetVelocity());
+                Vector2 normal = Vector2Normalize(destroyer->GetVelocity());
 
                 // get a position behind the destroyer, and far enough away that the critter won't bump into it again
-                Vector2 pos = destroyer.GetPosition();
+                Vector2 pos = destroyer->GetPosition();
                 pos = Vector2Add(pos, Vector2Scale(normal, -50));
                 // its pretty ineficient to keep reloading textures. ...if only there was something else we could do
                 critterpool.spawn();
@@ -147,7 +157,7 @@ int main(int argc, char* argv[])
                 break;
             }
         }
-        nextSpawnPos = destroyer.GetPosition();
+        nextSpawnPos = destroyer->GetPosition();
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -156,13 +166,21 @@ int main(int argc, char* argv[])
         ClearBackground(RAYWHITE);
 
         // draw the critters
-        for (Critter critters : critterpool.GetActive()){
-            critters.Draw();
+        for (Critter critters : critterpool.GetActive())
+        {
+            for (int i = 0; i < critterpool.GetActive().size(); i++) {
+                critterarray[i].Draw();
+            }
         }
+        //for (int i = 0; i < CRITTER_COUNT; i++) 
+        //{
+        //    critterarray[i].Draw();
+        //}
+        
         // draw the destroyer
         // (if you're wondering why it looks a little odd when sometimes critters are destroyed when they're not quite touching the 
         // destroyer, it's because the origin is at the top-left. ...you could fix that!)
-        destroyer.Draw();
+        destroyer->Draw();
 
         DrawFPS(10, 10);
         //DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);

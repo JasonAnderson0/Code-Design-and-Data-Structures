@@ -5,6 +5,7 @@
 ObjectPool::ObjectPool(const int size): m_size(size)
 {
 	for (int i = 0; i < size; i++) {
+		critterPool[i].SetLoaded();
 		inactive.push_back(critterPool[i]);
 	}
 
@@ -21,7 +22,7 @@ Critter* ObjectPool::spawn()
 	return nullptr;
 }
 
-void ObjectPool::despawn(Critter& moved)
+void ObjectPool::despawn(Critter* moved)
 {
-
+	
 }
