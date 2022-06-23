@@ -5,6 +5,7 @@
 class ObjectPool {
 public:
 	ObjectPool(int size);
+	~ObjectPool();
 
 
 	std::vector<Critter> GetActive() { return active; }

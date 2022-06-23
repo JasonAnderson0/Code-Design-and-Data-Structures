@@ -2,9 +2,12 @@
 #include <iostream>
 
 
-int main() {
-	Hashtable<int, std::string> texture(20);
 
-	std::string flumph = "gluntch";
-	std::cout << texture[flumph];
-} 
+	unsigned int badHash(const char* data, unsigned int length) {
+		unsigned int hash = 0;
+
+		for (unsigned int i = 0; i < length; i++)
+			hash += data[i];
+
+		return hash;
+	}

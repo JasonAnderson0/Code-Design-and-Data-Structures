@@ -1,5 +1,4 @@
 #include "ObjectPool.h"
-#include "raylib.h"
 #include "ResourceManager.h"
 
 
@@ -11,6 +10,10 @@ ObjectPool::ObjectPool(int size)
 	{
 		inactive.push_back(critterPool[i]);
 	}
+}
+ObjectPool::~ObjectPool()
+{
+	destroy[] critterpool;
 }
 
 
