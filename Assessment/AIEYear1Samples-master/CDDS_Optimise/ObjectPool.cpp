@@ -2,27 +2,34 @@
 #include "raylib.h"
 #include "ResourceManager.h"
 
-ObjectPool::ObjectPool(const int size): m_size(size)
+
+ObjectPool::ObjectPool(int size)
 {
-	for (int i = 0; i < size; i++) {
-		critterPool[i].SetLoaded();
+	m_size = size;
+	critterPool = new Critter[size];
+	for (int i = 0; i < size; ++i)
+	{
 		inactive.push_back(critterPool[i]);
 	}
-
 }
 
-Critter* ObjectPool::spawn()
+
+void ObjectPool::spawn()
 {
 	if (inactive.size() > 0) {
-		auto critter = inactive.back();
+		Critter critter = inactive.back();
 		inactive.pop_back();
 		active.push_back(critter);
-		return &critter;
 	}
-	return nullptr;
 }
 
-void ObjectPool::despawn(Critter* moved)
+void ObjectPool::despawn(Critter &moved)
 {
-	
+	if (active.size() > 0)
+	{
+		std::swap(moved, active.back());
+		active.pop_back();
+		inactive.push_back(moved);
+	}
+
 }

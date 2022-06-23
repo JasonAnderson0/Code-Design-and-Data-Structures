@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "ResourceManager.h"
 
 class Critter
 {
@@ -10,7 +11,6 @@ protected:
 
 	Texture2D m_texture;
 
-	bool m_isLoaded = true;
 	bool m_isDirty;
 	
 public:
@@ -21,8 +21,6 @@ public:
 	void Destroy();
 	void Update(float dt);
 	void Draw();
-
-	void SetLoaded() { m_isLoaded = true; }
 
 	float GetX() { return m_position.x; }
 	float GetY() { return m_position.y; }
@@ -39,8 +37,6 @@ public:
 
 	bool IsDirty() { return m_isDirty; }
 	void SetDirty() { m_isDirty = true; }
-
-	bool IsDead() { return m_isLoaded == false; }
 
 };
 

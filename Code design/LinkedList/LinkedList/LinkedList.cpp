@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include "raylib.h"
 
 template <typename T>
 class LinkedList
@@ -11,24 +12,7 @@ class LinkedList
       T data;
       Node* prev{ nullptr };
       Node* next{ nullptr };
-    };
-
-    struct Iterator 
-    { //look at map/multimap for iterator thing
-    public:
-        //bool 
-        int count = 0;
-        Node* current() { return curNode; }
-        Node* first() { return head; }
-        Node* last() { return tail; }
-        void moveFirst() { curNode = head; }
-        void moveLast() { curNode = tail; }
-        void nextNode() { curNode = curNode.next; }
-        //void countNodes() { }
-
-
-    private:
-        Node* curNode;
+      Color color;
     };
 
 
@@ -44,7 +28,7 @@ class LinkedList
 
   //List nullptr <->Node1 <-> Node2 <-> nullptr
 
-  bool isEmpty() { return head == nullptr; }
+  bool isEmpty() { return (head == nullptr && tail==nullptr); }
 
   void PushFront(const T& value)
   {
@@ -70,13 +54,22 @@ class LinkedList
       tail = temp;
   }
 
-  void Insert(const T& value,  T& searchedVal)
+  void Insert(T value,T searchedVal)
   {
       Node* temp = new Node{ value };
-      searchedVal->next->prev = temp;
-      temp->next = searchedVal.next;
-      searchedVal->next = temp;
-      temp->prev = &searchedVal;
+      auto iter = head;
+      while (iter != tail) {
+          if (iter->data = searchedVal) 
+          {
+              iter->next->prev = temp;
+              temp->next = iter->next;
+              iter->next = temp;
+              temp->prev = iter;
+              break;
+          }
+          else { iter = iter->next; }
+      }
+
   }
 
   void popFront()
@@ -109,6 +102,19 @@ class LinkedList
 
   }
 
+  int Count() 
+  {
+      int count = 0;
+      auto iter = head;
+      while(iter != tail)
+      {
+          count++;
+          iter->next;
+
+      }
+      return count;
+  }
+
   Node* begin() {return head;}
   Node* end() { return tail; }
 
@@ -120,17 +126,24 @@ private:
 
 int main()
 {
+    int value = 5;
     LinkedList<int> list;
     list.PushFront(1);
     list.PushFront(5);
     list.PushBack(2);
-    //list.Insert(4, 1);
+    list.Insert(4, value);
 
     for(LinkedList<int>::Node* node = list.begin(); node != nullptr; node = node->next)
     {
         std::cout << node->data << std::endl;
     }
+    if (list.isEmpty()) 
+    {
+       std::cout<<"Is empty";
+    }
+    else {
+        std::cout << "Isn't empty" << list.Count();
+    }
 
     
-
 }

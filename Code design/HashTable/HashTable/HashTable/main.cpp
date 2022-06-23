@@ -3,7 +3,7 @@
 
 
 int main() {
-	Hashtable<std::string, int> texture(20);
+	Hashtable<int, std::string> texture(20);
 
 	std::string flumph = "gluntch";
 	std::cout << texture[flumph];
