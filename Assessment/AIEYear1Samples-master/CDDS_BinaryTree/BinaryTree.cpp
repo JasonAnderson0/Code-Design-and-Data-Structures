@@ -1,5 +1,7 @@
 #include "BinaryTree.h"
 #include "TreeNode.h"
+#include "raylib.h"
+#include <iostream>
 
 using namespace std;
 
@@ -89,4 +91,56 @@ bool BinaryTree::FindNode(int a_nSearchValue, TreeNode*& ppOutNode, TreeNode*& p
 	}
 
 	return false;
+}
+
+void BinaryTree::PrintOrdered()
+{
+	PrintOrderedRecurse(m_pRoot);
+	cout << endl;
+}
+
+void BinaryTree::PrintOrderedRecurse(TreeNode* pNode)
+{
+
+}
+
+void BinaryTree::PrintUnordered()
+{
+	PrintUnorderedRecurse(m_pRoot);
+	std::cout << endl;
+}
+
+void BinaryTree::PrintUnorderedRecurse(TreeNode* pNode)
+{
+
+}
+
+void BinaryTree::Draw(TreeNode* selected)
+{
+	Draw(m_pRoot, 400, 40, 400, selected);
+}
+
+void BinaryTree::Draw(TreeNode* pNode, int x, int y, int horizontalSpacing, TreeNode* selected)
+{
+
+	horizontalSpacing /= 2;
+
+	if (pNode)
+	{
+		if (pNode->HasLeft())
+		{
+			DrawLine(x, y, x - horizontalSpacing, y + 80, RED);
+
+			Draw(pNode->GetLeft(), x - horizontalSpacing, y + 80, horizontalSpacing, selected);
+		}
+
+		if (pNode->HasRight())
+		{
+			DrawLine(x, y, x + horizontalSpacing, y + 80, RED);
+
+			Draw(pNode->GetRight(), x + horizontalSpacing, y + 80, horizontalSpacing, selected);
+		}
+
+		pNode->Draw(x, y, (selected == pNode));
+	}
 }

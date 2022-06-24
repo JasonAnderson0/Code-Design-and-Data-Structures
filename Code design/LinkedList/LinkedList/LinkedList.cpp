@@ -1,6 +1,11 @@
 #include <iostream>
 #include <algorithm>
 #include "raylib.h"
+#include "raygui.h"
+
+#define RAYGUI_IMPLEMENTATION
+#define RAYGUI_SUPPORT_ICONS
+
 
 template <typename T>
 class LinkedList
@@ -9,10 +14,19 @@ class LinkedList
 
     struct Node 
     {
+    public:
       T data;
       Node* prev{ nullptr };
       Node* next{ nullptr };
-      Color color;
+      Color color = YELLOW;
+      int posX = 80;
+      int posY = 80;
+
+      void Draw(int numb)
+      {
+          DrawRectangle(posX * numb,posY, 60, 60, color);
+          DrawText((const char*)data, posX, posY, 20, BLACK);
+      }
     };
 
 
@@ -106,11 +120,10 @@ class LinkedList
   {
       int count = 0;
       auto iter = head;
-      while(iter != tail)
+      while(iter != nullptr)
       {
+          iter = iter->next;
           count++;
-          iter->next;
-
       }
       return count;
   }
@@ -126,24 +139,62 @@ private:
 
 int main()
 {
-    int value = 5;
     LinkedList<int> list;
-    list.PushFront(1);
-    list.PushFront(5);
-    list.PushBack(2);
-    list.Insert(4, value);
-
-    for(LinkedList<int>::Node* node = list.begin(); node != nullptr; node = node->next)
-    {
-        std::cout << node->data << std::endl;
-    }
-    if (list.isEmpty()) 
-    {
-       std::cout<<"Is empty";
-    }
-    else {
-        std::cout << "Isn't empty" << list.Count();
-    }
-
+    int boxValue = 0;
+    bool boxEdit = false;
     
+    //for (LinkedList<int>::Node* node = list.begin(); node != nullptr; node = node->next) \
+    //{
+    //    std::cout << node->data;
+
+    //}
+
+    //list.popFront();
+    //list.popBack();
+    //std::cout << std::endl;
+    //for (LinkedList<int>::Node* node = list.begin(); node != nullptr; node = node->next) \
+    //{
+    //    std::cout << node->data;
+
+    //}
+    //std::cout << list.Count();
+
+
+    int screenWidth = 800;
+    int screenHeight = 550;
+    int numb = 0;
+
+    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+
+    SetTargetFPS(60);
+
+
+
+    while (!WindowShouldClose()) 
+    {
+        float delta = GetFrameTime();
+
+        BeginDrawing();
+        ClearBackground(WHITE);
+
+        GuiSetStyle(TEXTBOX, TEXT_ALIGNMENT, GUI_TEXT_ALIGN_CENTER);
+        if (GuiValueBox(Rectangle{ 25,25,125,30 }, NULL, &boxValue, 0, 100, boxEdit)) boxEdit = !boxEdit;
+
+        int count = 0;
+        for (LinkedList<int>::Node* node = list.begin(); node != nullptr; node = node->next)
+        {
+
+            count++;
+            node->Draw(count);
+            if (node != nullptr && node->next != nullptr) 
+            {
+                DrawLine(node->posX, node->posY, node->next->posX, node->next->posY, BLACK);
+            }
+        }
+
+        EndDrawing();
+    }
+
+    CloseWindow();
+    return 0;
 }

@@ -13,7 +13,7 @@ ObjectPool::ObjectPool(int size)
 }
 ObjectPool::~ObjectPool()
 {
-	destroy[] critterpool;
+	//destroy[] critterpool;
 }
 
 
